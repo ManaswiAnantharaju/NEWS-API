@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP NEWS</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+</body>
+</html>
+
+<section id="HOME">
+    <h3 class="h-primary">Start browsing your favourite topics around the globe.....</h3>
+  </section>
+</head>
+<body>
+  <form class="search" action="">
+    <label for="NEWS">NEWS<br></label>
+    <input class ="input" type="text"><br>
+    <input type="submit">
+  </form>
+  <div class="container">
+    <ul class="news-list"></ul>
+  </div>
+
+  <script>
+    const searchFrom = document.querySelector('.search');
+    const input = document.querySelector('.input');
+    const newslist = document.querySelector('.news-list');
+    console.log(newslist)
+
+
+    searchFrom.addEventListener('submit', retrieve)
+     function retrieve(e){
+
+        if (input.value == ''){
+          alert('input field is empty!')
+          return
+        }
+       newslist.innerHTML = ''
+       e.preventDefault()
+       const apiKey = 'ad248fd2a3774d24a612bb7937988ecc'
+       let topic=input.value;
+
+       let url =`https://newsapi.org/v2/everything?q=${topic}&apiKey=${apiKey}`
+
+
+       fetch(url).then((res)=>{
+            return res.json()
+       }).then((data)=>{
+            console.log(data)
+            data.articles.forEach(article=>{
+              let li = document.createElement('li');
+              let a  = document.createElement('a');
+              a.setAttribute('href', article.url);
+              a.setAttribute('target','_blank' );
+              a.textContent = article.title;
+              li.appendChild(a);
+              newslist.appendChild(li);
+
+            })
+
+       }).catch((error)=>{
+         console.log(error)
+
+       })
+
+       
+       console.log(topic)
+     }
+
+  </script>
+</body>
+</html>
